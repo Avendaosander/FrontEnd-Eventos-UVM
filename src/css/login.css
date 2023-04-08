@@ -1,0 +1,12 @@
+.fle{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: center;
+    place-content: center;
+}
+.cre{
+    text-align: center;
+}
+.bien{
+    text-align: center;
+}
