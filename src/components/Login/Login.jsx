@@ -2,10 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import styles from "./styles.module.css";
 import uvR from "../../assets/uvm.png"
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
+	const navigate = useNavigate();
 
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -16,15 +18,17 @@ const Login = () => {
 		try {
 			const url = "http://localhost:3000/login";
 			const { data: res } = await axios.post(url, data);
+			const id=res.user._id
+			console.log(id)
 			localStorage.setItem("token", res.data);
-			window.location = "/feed";
+			navigate('/profile/'+id);
 		} catch (error) {
 			if (
 				error.response &&
 				error.response.status >= 400 &&
 				error.response.status <= 500
 			) {
-				setError(error.response.data.message);
+				setError(error.response.data.messageError);
 			}
 		}
 	};

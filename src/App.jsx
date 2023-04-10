@@ -5,6 +5,8 @@ import Singup from './components/Register/Register'
 import Main from './components/NavLog/NavLog'
 import Home from './components/Home/Home'
 import Feed from './components/Feed/Feed'
+import Profile from './components/Profile/Profile'
+import Userform from './components/Userform/Userform'
 
 function App() {
   const user = localStorage.getItem("token");
@@ -18,6 +20,8 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/reg' element={<Singup/>}/>
+        <Route path='/profile/:id' element={<Profile/>}/>
+        <Route path='/form' element={<Userform/>}/>
       </Routes>
     </div>
   )
