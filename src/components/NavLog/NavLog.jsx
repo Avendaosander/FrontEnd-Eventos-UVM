@@ -42,7 +42,7 @@ const Main = () => {
 
 					{ estadoMenu 
 						? 
-						<div className="w-64 h-auto shadow-md rounded-lg absolute right-16 top-20 flex flex-col items-center justify-center bg-slate-50 p-8">
+						<div className="w-64 h-auto shadow-md rounded-lg absolute right-16 top-20 flex flex-col items-center justify-center bg-slate-50 p-8 z-50">
 							<div className="flex flex-col items-center pb-12">
 								<img src={fotoUSer} alt="User Foto" className="w-16" />
 								<span className="text-lg font-medium">Nombre del Usuario</span>
