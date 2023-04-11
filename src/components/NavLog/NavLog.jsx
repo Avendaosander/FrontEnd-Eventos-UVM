@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+	const navigate=useNavigate()
 	const handleLogout = () => {
 		localStorage.removeItem("token");
-		window.location.reload();
+		navigate('/login')
 	};
 	const token = localStorage.getItem("token");
 	return (

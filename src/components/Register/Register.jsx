@@ -24,7 +24,11 @@ const Signup = () => {
 		try {
 			const url = "http://localhost:3000/register";
 			const { data: res } = await axios.post(url, data);
-			navigate("/login");
+			const id=res.user.id
+			console.log(id)
+			localStorage.setItem("token", res.token);
+			navigate('/form/'+id)
+			localStorage.setItem("token", res.token);
 		} catch (error) {
 			if (
 				error.response &&
@@ -74,7 +78,7 @@ const Signup = () => {
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
+						<button type="submit" className='bg-green-700 w-40 h-12 rounded-full text-white font-semibold m-4 ...'>
 							Registrate
 						</button>
 					</form>

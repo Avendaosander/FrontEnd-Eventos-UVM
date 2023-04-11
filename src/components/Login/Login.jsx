@@ -18,10 +18,10 @@ const Login = () => {
 		try {
 			const url = "http://localhost:3000/login";
 			const { data: res } = await axios.post(url, data);
-			const id=res.user._id
+			const id=res.user.id
 			console.log(id)
-			localStorage.setItem("token", res.data);
-			navigate('/profile/'+id);
+			localStorage.setItem("token", res.token);
+			navigate('/profile/'+id)
 		} catch (error) {
 			if (
 				error.response &&
@@ -62,7 +62,7 @@ const Login = () => {
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
+						<button type="submit" className='bg-green-700 w-40 h-12 rounded-full text-white font-semibold m-4 ...'>
 							Entrar
 						</button>
 					</form>
