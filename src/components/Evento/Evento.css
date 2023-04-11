@@ -1,4 +1,4 @@
-h2{
+.titulo{
     font-size: 2rem;
     text-align: center;
     color: green;
@@ -11,7 +11,7 @@ h2{
     padding: 2rem 0;
 }
 
-img{
+.img{
     width: 40%;
     margin-left: 7rem;
     box-shadow: 1rem .5rem 1rem .3rem rgba(32,32,32,0.3);
@@ -25,7 +25,7 @@ ul li{
     margin-left: 2rem;
 }
 
-button{
+.button{
     padding: 1rem;
     background-color: green;
     border-radius: 5rem;
@@ -51,7 +51,7 @@ i{
     margin: 0 4rem;
 }
 
-h3{
+.subEvent{
     font-size: 1.5rem;
     color: green;
 }
