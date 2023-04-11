@@ -5,7 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'iconUser': "url('../public/img/user.svg')",
+      }
+    },
+    textColor: { 
+      'titNav':"#04740c",
+    },
   },
   plugins: [],
 }
