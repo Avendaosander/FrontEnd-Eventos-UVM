@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import styles from "./styles.module.css";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {
 	Navbar,
@@ -9,11 +9,13 @@ import {
 
 import imgUser from './user.svg';
 import fotoUSer from './user.png';
+import styles from "./styles.module.css"
 
 const Main = () => {
+	const navigate=useNavigate()
 	const handleLogout = () => {
 		localStorage.removeItem("token");
-		window.location.reload();
+		navigate('/login')
 	};
 	const [estadoMenu, setEstadoMenu] = useState(false);
 	const token = localStorage.getItem("token");
@@ -43,8 +45,8 @@ const Main = () => {
 					{ estadoMenu 
 						? 
 						<div className="w-64 h-auto shadow-md rounded-lg absolute right-16 top-20 flex flex-col items-center justify-center bg-slate-50 p-8">
-							<div className="flex flex-col items-center pb-12">
-								<img src={fotoUSer} alt="User Foto" className="w-16" />
+							<div className="flex flex-col justify-center items-center pb-12">
+								<img src={fotoUSer} alt="User Foto" className="w-16 justify-center ..." />
 								<span className="text-lg font-medium">Nombre del Usuario</span>
 							</div>
 							<div className="flex justify-between space-x-16">
