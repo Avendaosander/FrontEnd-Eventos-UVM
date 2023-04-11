@@ -1,17 +1,39 @@
-import location from '../../assets/location.png';
+import { useEffect, useState } from 'react';
+import axios from "axios"
+import Footer from '../Footer/Footer';
 
 import NombreMes from '../NombreMes/NombreMes';
 import GetDia from '../GetDia/GetDia';
 import HoraFormat from '../HoraFormat/HoraFormat';
 
-export default function NextEvents(dataEvents){
-    const dataEvent = Object.values(dataEvents);
+import location from '../../assets/location.png';
+import PaginationNav1Presentation from '../Pagination/Pagination';
+
+export default function Eventos () {
+    const [dataEventos, setDataEventos] = useState([]);
+
+    const Eventos = async()=>{
+        try {
+            const response  = await axios(`${import.meta.env.VITE_API_URL}/app/events`)
+            const dataEvents = Object.values(response.data.eventos);
+            setDataEventos(dataEvents);
     
-    return(
-        <>
+        } catch (e){
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        Eventos();
+    }, []);
+
+    return (
+        <div className="w-full flex flex-col items-center justify-center pt-8">
+            <span className="text-3xl font-bold pt-4">Eventos</span>
+
             <div className="w-full h-full p-6 items-center justify-center">
-                <div className="w-auto grid lg:grid-cols-3 lg:gap-3 place-items-center pb-8">
-                    {dataEvent[0].map((evento, index)=>(
+                <div className="w-auto grid lg:grid-cols-3 lg:gap-3 place-items-center pb-8 space-y-12">
+                    {dataEventos.map((evento, index)=>(
                         <div className="Card bg-zinc-100 cursor-pointer" key={index}>
                             <div className="bg-cover bg-center w-full h-48 rounded-t-lg" style={{ backgroundImage: `url(${evento.imagen.secure_url})` }}  >
                             </div>
@@ -45,6 +67,16 @@ export default function NextEvents(dataEvents){
                     ))}
                 </div>
             </div>
-        </>
+
+            <div className="w-full flex flex-col items-center justify-center">
+                <div className='w-16'>
+                    <PaginationNav1Presentation />
+                </div>
+            </div>
+
+            <div className="w-full flex flex-col items-center justify-center">
+                <Footer />
+            </div>
+        </div>
     )
 }

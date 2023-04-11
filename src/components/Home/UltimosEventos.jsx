@@ -4,14 +4,14 @@ import NombreMes from '../NombreMes/NombreMes';
 import GetDia from '../GetDia/GetDia';
 import HoraFormat from '../HoraFormat/HoraFormat';
 
-export default function NextEvents(dataEvents){
-    const dataEvent = Object.values(dataEvents);
+export default function NextEvents(UltimosEventos){
+    const recientes = Object.values(UltimosEventos);
     
     return(
         <>
             <div className="w-full h-full p-6 items-center justify-center">
                 <div className="w-auto grid lg:grid-cols-3 lg:gap-3 place-items-center pb-8">
-                    {dataEvent[0].map((evento, index)=>(
+                    {recientes[0].map((evento, index)=>(
                         <div className="Card bg-zinc-100 cursor-pointer" key={index}>
                             <div className="bg-cover bg-center w-full h-48 rounded-t-lg" style={{ backgroundImage: `url(${evento.imagen.secure_url})` }}  >
                             </div>

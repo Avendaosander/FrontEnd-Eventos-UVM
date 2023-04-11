@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'iconUser': "url('../public/img/user.svg')",
+        'test': "url('../src/Home/test.jpg')",
       }
     },
     textColor: { 
