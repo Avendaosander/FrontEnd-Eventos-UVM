@@ -8,6 +8,7 @@ import Feed from './components/Feed/Feed'
 import Profile from './components/Profile/Profile'
 import Userform from './components/Userform/Userform'
 import { Evento } from './components/Evento/Evento'
+import FormEvento from './components/FormEvento/FormEvento'
 
 function App() {
   const user = localStorage.getItem("token");
@@ -18,6 +19,7 @@ function App() {
       <Main/>
       <Routes>
         <Route path='/feed' element={<Feed/>}/>
+        <Route path='/evenForm' element={<FormEvento/>}/>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/reg' element={<Singup/>}/>

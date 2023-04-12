@@ -1,32 +1,32 @@
 import { useParams } from "react-router"
 import img from "../../assets/uvm.png"
 import axios from "axios"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 
 
 export default function Profile(){
+    const params=useParams()
     const navigate=useNavigate()
-    let params=useParams()
-    console.log(params.id)
+    const [user,setUser]=useState({})
     const id=params.id
-    console.log(id)
-    const info=async()=>{
-        const info= await axios('http://localhost:3000/app/profile/' + id)
-        console.log(info)
-    }
     useEffect(() => {
         const autenticarUsuario = async () => {
             const token = localStorage.getItem("token");
-            console.log(token)
             if(!token){
                 navigate("/login");
                 return;
             }
+            try {
+                const { data } = await axios('http://localhost:3000/app/profile/' + id)
+                console.log(data)
+                setUser(data);
+              } catch (error) {
+                console.log(error.response.data.msg);
+              }
         }
         autenticarUsuario()
-    },[])    
-    info()
+    },[])     
     const edit=()=>{
         navigate('/form/'+id)
     }
@@ -38,16 +38,26 @@ export default function Profile(){
                 </div>
                 <div className="m-8 ...">
                     <h1 className="m-2 font-semibold ...">Nombre:</h1>
+                    <h1 className="m-2 font-semibold ...">Nombre de Usuario:</h1>
                     <h1 className="m-2 font-semibold ...">Email:</h1>
-                    <h1 className="m-2 font-semibold ...">Cedula:</h1>
+                    <h1 className="m-2 font-semibold ...">Edad:</h1>
+                    <h1 className="m-2 font-semibold ...">Rol:</h1>
                     <h1 className="m-2 font-semibold ...">Telefono:</h1>
                 </div>
+                {
+                    user.user?
                 <div className="m-8 ...">
-                    <h1 className="m-2 font-semibold ...">Alberto</h1>
-                    <h1 className="m-2 font-semibold ...">albertoelbroder@gmail.com</h1>
-                    <h1 className="m-2 font-semibold ...">28765980</h1>
-                    <h1 className="m-2 font-semibold ...">0426778324</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.nombre}</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.username}</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.email}</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.edad}</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.rol}</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.telefono}</h1>
+                </div>:
+                <div className="es">
+                    <h1>Espera un momento....</h1>
                 </div>
+                }
             </div>
             <div className="boton" class="flex justify-center ...">
                 <button class="bg-green-700 w-20 h-10 rounded-full text-white font-semibold ..." onClick={edit}>Editar</button>
