@@ -27,8 +27,7 @@ const Signup = () => {
 			const id=res.user.id
 			console.log(id)
 			localStorage.setItem("token", res.token);
-			navigate('/form/'+id)
-			localStorage.setItem("token", res.token);
+			navigate('/perfil/'+id)
 		} catch (error) {
 			if (
 				error.response &&

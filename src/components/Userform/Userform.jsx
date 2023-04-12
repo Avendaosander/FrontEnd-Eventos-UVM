@@ -1,12 +1,14 @@
-import { useState } from "react";
 import { useParams } from "react-router"
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useEffect, useState } from "react"
 
 export default function Userform(){
     let params=useParams()
     const navigate=useNavigate()
     const id=params.id
+    const [user,setUser]=useState({})
+    console.log(user)
     const [data, setData] = useState({
 		nombre: "",
 		apellido: "",
@@ -18,6 +20,23 @@ export default function Userform(){
 		setData({ ...data, [input.name]: input.value });
 		console.log(data)
 	};
+    useEffect(() => {
+        const autenticarUsuario = async () => {
+            const token = localStorage.getItem("token");
+            if(!token){
+                navigate("/login");
+                return;
+            }
+            try {
+                const { data } = await axios('http://localhost:3000/app/profile/' + id)
+                console.log(data)
+                setUser(data);
+              } catch (error) {
+                console.log(error.response.data.msg);
+              }
+        }
+        autenticarUsuario()
+    },[])     
     const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
@@ -37,9 +56,12 @@ export default function Userform(){
 	};
     return(
         <div className="flex justify-center m-10 ...">
-            <form className="flex flex-col gap-6 bg-slate-200 p-2 ..." onSubmit={handleSubmit}>
-                <h1>Edita tu perfil</h1>
-                <div className="m-8 ...">
+            { user.user?
+            <form className="flex flex-col bg-slate-200 p-2 bg-white rounded-lg ..." onSubmit={handleSubmit}>
+                <div className="flex justify-center m-2 ...">
+                    <h1 className="text-xl font-semibold ...">Edita tu perfil</h1>
+                </div>
+                <div className="m-4 gap-6 ...">
                 <input
 						type="text"
 						placeholder="Nombre"
@@ -47,6 +69,7 @@ export default function Userform(){
 						onChange={handleChange}
 						value={data.nombre}
 					    required
+                        className="h-10 mr-2 bg-slate-100 rounded-lg ..."
 					/>
                 <input
 					type="text"
@@ -55,8 +78,11 @@ export default function Userform(){
 					onChange={handleChange}
 					value={data.apellido}
 				    required
+                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
                 </div>
+                { user.user.rol==="Admin"?
+                <div className="flex flex-col bg-slate-200 bg-white rounded-lg ...">
                 <input
 					type="text"
 					placeholder="Sobre ti"
@@ -64,8 +90,11 @@ export default function Userform(){
 					onChange={handleChange}
 					value={data.biografia}
 				    required
-                    className="m-8 ..."
+                    className="h-10 mx-4 mb-8 bg-slate-100 rounded-lg ..."
 				/>
+                </div>:
+                <br></br>
+                }
                 <input
 					type="number"
 					placeholder="Edad"
@@ -73,7 +102,7 @@ export default function Userform(){
 					onChange={handleChange}
 					value={data.edad}
 				    required
-                    className="m-8 ..."
+                    className="h-10 mx-4 mb-8 bg-slate-100 rounded-lg ..."
 				/>
                 <input
 					type="text"
@@ -82,13 +111,18 @@ export default function Userform(){
 					onChange={handleChange}
 					value={data.telefono}
 				    required
-                    className="m-8 ..."
+                    className="h-10 mx-4 bg-slate-100 rounded-lg ..."
 				/>
                 <br />
-                <button type="submit" className="m-8 ...">
+                <button type="submit" className="m-4 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500 ...">
 					Registrate
 				</button>
             </form>
+            :
+            <div>
+                <h1>Cargando Datos</h1>
+            </div>
+        }
         </div>
     )
 }

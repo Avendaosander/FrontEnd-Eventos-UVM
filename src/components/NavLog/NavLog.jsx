@@ -9,7 +9,7 @@ import {
 
 import imgUser from './user.svg';
 import fotoUSer from './user.png';
-import styles from "./styles.module.css"
+import styles from"./styles.module.css"
 
 const Main = () => {
 	const navigate=useNavigate()
