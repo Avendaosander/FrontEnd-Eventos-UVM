@@ -24,7 +24,10 @@ const Signup = () => {
 		try {
 			const url = "http://localhost:3000/register";
 			const { data: res } = await axios.post(url, data);
-			navigate("/login");
+			const id=res.user.id
+			console.log(id)
+			localStorage.setItem("token", res.token);
+			navigate('/perfil/'+id)
 		} catch (error) {
 			if (
 				error.response &&

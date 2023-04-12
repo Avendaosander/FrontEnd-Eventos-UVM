@@ -19,7 +19,7 @@ function App() {
       <Main/>
       <Routes>
         <Route path='/feed' element={<Feed/>}/>
-        <Route path='/evenForm/:id' element={<FormEvento/>}/>
+        <Route path='/evenForm' element={<FormEvento/>}/>
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/reg' element={<Singup/>}/>

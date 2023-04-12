@@ -4,11 +4,11 @@ import { useNavigate } from "react-router";
 import { useEffect, useState } from "react"
 
 export default function FormEvento(){
-    let params=useParams()
-    const navigate=useNavigate()
-    const id=params.id
-    const [user,setUser]=useState({})
-    console.log(user)
+    // let params=useParams()
+    // const navigate=useNavigate()
+    // const id=params.id
+    // const [user,setUser]=useState({})
+    // console.log(user)
     const tipo=["Videoconferencia","Foro Chat","Presentación","Diplomado","Dinámica","Encuesta","Chats","Juegos Interactivos","Stand Virtual","Streaming","Aula Virtual","Taller"]
     const [data, setData] = useState({
 		organizador: "",
@@ -17,10 +17,10 @@ export default function FormEvento(){
 		keywords:["evento","uvm"],
         facultad:"",
         tipo:[],
-        categoria:["Programación"],
+        categoria:[],
         fecha:"",
         hora:"",
-        duracion:""
+        duracion:''
 	});
     const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
@@ -44,41 +44,48 @@ export default function FormEvento(){
             tipo:data.tipo.filter(co=>co!==e)
         })
     }
+    function handleKey({ currentTarget: input }){
+        setData({
+            ...data,
+            keywords:[...data.keywords,input.value]
+        })
+        console.log(data.keywords)
+    }
     console.log(data)
-    useEffect(() => {
-        const autenticarUsuario = async () => {
-            const token = localStorage.getItem("token");
-            if(!token){
-                navigate("/login");
-                return;
-            }
-            try {
-                const { data } = await axios('http://localhost:3000/app/profile/' + id)
-                console.log(data)
-                setUser(data);
-              } catch (error) {
-                console.log(error.response.data.msg);
-              }
-        }
-        autenticarUsuario()
-    },[])     
-    const handleSubmit = async (e) => {
-		e.preventDefault();
-		try {
-			const url = "http://localhost:3000/events/update-profile/create-event/" + id;
-			const { data: res } = await axios.post(url, data);
-            console.log(res)
-            navigate('/feed')
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.messageError);
-			}
-		}
-	};
+    // useEffect(() => {
+    //     const autenticarUsuario = async () => {
+    //         const token = localStorage.getItem("token");
+    //         if(!token){
+    //             navigate("/login");
+    //             return;
+    //         }
+    //         try {
+    //             const { data } = await axios('http://localhost:3000/app/profile/' + id)
+    //             console.log(data)
+    //             setUser(data);
+    //           } catch (error) {
+    //             console.log(error.response.data.msg);
+    //           }
+    //     }
+    //     autenticarUsuario()
+    // },[])     
+    // const handleSubmit = async (e) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const url = "http://localhost:3000/events/update-profile/create-event/:userID" + id;
+	// 		const { data: res } = await axios.post(url, data);
+    //         console.log(res)
+    //         navigate('/profile/'+id)
+	// 	} catch (error) {
+	// 		if (
+	// 			error.response &&
+	// 			error.response.status >= 400 &&
+	// 			error.response.status <= 500
+	// 		) {
+	// 			setError(error.response.data.messageError);
+	// 		}
+	// 	}
+	// };
     return(
         <div className="flex justify-center m-10 ...">
             <form className="flex flex-col bg-slate-200 p-2 bg-white rounded-lg ...">
@@ -95,7 +102,7 @@ export default function FormEvento(){
 					    required
                         className="h-10 mr-2 bg-slate-100 rounded-lg ..."
 					/>
-                <input
+               <input
 					type="text"
 					placeholder="Hora del evento"
 					name="hora"
