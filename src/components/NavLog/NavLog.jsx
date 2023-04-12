@@ -38,6 +38,7 @@ const Main = () => {
 						</Link>
 
 
+
 						<img src={imgUser} alt="Usuario" className="w-8 cursor-pointer" onClick={() =>setEstadoMenu(!estadoMenu)} />
 					</div>
 					</Navbar> 
