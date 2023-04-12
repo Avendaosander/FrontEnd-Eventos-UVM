@@ -31,10 +31,10 @@ export default function Profile(){
         navigate('/form/'+id)
     }
     return(
-        <div>
+        <div className="">
             <div className="flex justify-center ...">
                 <div className="m-8 ...">
-                    <img src={img} alt=""  class="w-40"/>
+                    <img src={img} alt=""  className="w-40"/>
                 </div>
                 <div className="m-8 ...">
                     <h1 className="m-2 font-semibold ...">Nombre:</h1>
@@ -59,8 +59,8 @@ export default function Profile(){
                 </div>
                 }
             </div>
-            <div className="boton" class="flex justify-center ...">
-                <button class="bg-green-700 w-20 h-10 rounded-full text-white font-semibold ..." onClick={edit}>Editar</button>
+            <div Name="boton" className="flex justify-center ...">
+                <button className="bg-green-700 w-20 h-10 rounded-full text-white font-semibold ..." onClick={edit}>Editar</button>
             </div>
         </div>
     )
@@ -82,7 +82,7 @@ export default function Profile(){
 
 // export default function Profile(){
 //     return(
-//         <div className={styles.profi}>
+//         <div Name={styles.profi}>
 //             <div className={styles.imge}>
 //                 <img src={img} alt="" />
 //             </div>

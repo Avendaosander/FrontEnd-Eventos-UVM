@@ -102,12 +102,12 @@ export default function FormEvento(){
 					    required
                         className="h-10 mr-2 bg-slate-100 rounded-lg ..."
 					/>
-                <input
+               <input
 					type="text"
-					placeholder="Titulo del evento"
-					name="titulo"
+					placeholder="Hora del evento"
+					name="hora"
 					onChange={handleChange}
-					value={data.titulo}
+					value={data.hora}
 				    required
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
@@ -137,6 +137,33 @@ export default function FormEvento(){
                     </div>
                     )}
                 <br />
+                <input
+					type="text"
+					placeholder="Fecha del evento"
+					name="fecha"
+					onChange={handleChange}
+					value={data.fecha}
+				    required
+                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
+				/>
+                    <input
+					type="text"
+					placeholder="Titulo del evento"
+					name="titulo"
+					onChange={handleChange}
+					value={data.titulo}
+				    required
+                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
+				/>
+                    <input
+					type="text"
+					placeholder="Duracion del evento"
+					name="duracion"
+					onChange={handleChange}
+					value={data.duracion}
+				    required
+                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
+				/>
                 <button type="submit" className="m-4 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500 ...">
 					Registrate
 				</button>
