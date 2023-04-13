@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import styles from "./styles.module.css";
 import uvR from "../../assets/uvm.png"
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +17,7 @@ const Login = () => {
 		try {
 			const url = "http://localhost:3000/login";
 			const { data: res } = await axios.post(url, data);
-			const id=res.user._id
+			const id=res.user.id
 			console.log(id)
 			localStorage.setItem("token", res.data);
 			navigate('/profile/'+id);
@@ -42,7 +41,7 @@ const Login = () => {
 			</div>
         	<div className='col-span-3 flex flex-col justify-center items-center rounded-r-lg'>
 					<form className='flex flex-col items-center' onSubmit={handleSubmit}>
-						<h1 className="text-4xl">Inicia Sesion</h1>
+						<h1 className="text-4xl text-blue ...">Inicia Sesion</h1>
 						<input
 							type="email"
 							placeholder="Email"

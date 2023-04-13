@@ -59,7 +59,7 @@ export default function Profile(){
                 </div>
                 }
             </div>
-            <div Name="boton" className="flex justify-center ...">
+            <div name="boton" className="flex justify-center ...">
                 <button className="bg-green-700 w-20 h-10 rounded-full text-white font-semibold ..." onClick={edit}>Editar</button>
             </div>
         </div>
