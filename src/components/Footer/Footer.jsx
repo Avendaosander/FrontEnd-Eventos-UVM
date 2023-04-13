@@ -9,7 +9,7 @@ const Footer = () => {
 
 	return (
         <div className='w-full flex flex-col items-center justify-center bg-white'>
-            <div className="w-full h-72 py-52 flex space-x-32">
+            <div className="w-full h-20 py-40 flex space-x-60">
                 <div className="w-3/5 flex flex-col items-center justify-center">
                     <div className="items-center justify-center text-center rounded-lg p-4 bg-cover" style={{ backgroundImage: `url(${logo})` }}></div>
 

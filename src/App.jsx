@@ -7,9 +7,9 @@ import Home from './components/Home/Home'
 import Feed from './components/Feed/Feed'
 import Profile from './components/Profile/Profile'
 import Userform from './components/Userform/Userform'
-import { Evento } from './components/Evento/Evento'
+import Evento from './components/Evento/Evento'
+import Eventos from './components/Eventos/Eventos'
 import FormEvento from './components/FormEvento/FormEvento'
-import Eventos from './components/Eventos'
 
 function App() {
   const user = localStorage.getItem("token");

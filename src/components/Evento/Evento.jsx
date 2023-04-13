@@ -2,7 +2,7 @@ import React from 'react';
 import './Evento.css';
 import eventoImage from '../../assets/evento.jpeg'; 
 
-export const Evento = () => {
+export default function Evento () {
   return (
     <>
       <h2>Nombre del Evento</h2>
