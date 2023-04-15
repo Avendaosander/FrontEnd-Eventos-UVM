@@ -25,7 +25,7 @@ function App() {
         <Route path='/reg' element={<Singup/>}/>
         <Route path='/profile/:id' element={<Profile/>}/>
         <Route path='/form/:id' element={<Userform/>}/>
-        <Route path='/evento' element={<Evento/>}/>
+        <Route path='/evento/:id' element={<Evento/>}/>
       </Routes>
     </div>
   )
