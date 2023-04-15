@@ -9,11 +9,11 @@ import Footer from '../Footer/Footer';
 export default function Home(){
     const [dataProximos, setDataProximos] = useState([]);
     const [dataUltimos, setDataUltimos] = useState([]);
-    const [dataToday, setDataToday] = useState(null);
+    const [dataToday, setDataToday] = useState([]);
 
     const dataEventos = async()=>{
         try {
-            const response  = await axios(`${import.meta.env.VITE_API_URL}/app/dashboard`)
+            const response  = await axios(`http://localhost:3000/app/dashboard`)
             setDataProximos(response.data.proximos);
             setDataUltimos(response.data.recientes);
             setDataToday(response.data.eventsToday);
@@ -64,7 +64,7 @@ export default function Home(){
                 <span className="text-3xl font-bold py-8">Eventos Mas Relevantes</span>
                 <div className='w-full h-80 flex bg-green-200'>
                     {
-                        dataToday
+                        dataToday.length !==0
                         ?   
                         <>
                             <div className='w-1/2 p-8 items-center justify-center text-center'>

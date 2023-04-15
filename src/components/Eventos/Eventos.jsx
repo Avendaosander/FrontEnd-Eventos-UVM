@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from "axios"
 import Footer from '../Footer/Footer';
-
+import {Link} from "react-router-dom"
 import NombreMes from '../NombreMes/NombreMes';
 import GetDia from '../GetDia/GetDia';
 import HoraFormat from '../HoraFormat/HoraFormat';
@@ -14,8 +14,9 @@ export default function Eventos () {
 
     const Eventos = async()=>{
         try {
-            const response  = await axios(`${import.meta.env.VITE_API_URL}/app/events`)
+            const response  = await axios(`http://localhost:3000/app/events`)
             const dataEvents = Object.values(response.data.eventos);
+            console.log(dataEvents)
             setDataEventos(dataEvents);
     
         } catch (e){
@@ -54,9 +55,9 @@ export default function Eventos () {
                                             <div className='justify-end'><img src={location} alt="Location" className='w-8' /></div>
                                             <span className=' text-sm'>{evento.lugar}</span>
                                         </div>
-                                        <div className='w-3/5 flex P-4'>
+                                        <Link to={`/evento/${evento._id}`}className='w-3/5 flex P-4'>
                                             <button className='w-full rounded-lg shadow-lg bg-green-400 p-1 text-sm font-medium'>Ver Detalles</button>
-                                        </div>
+                                        </Link>
                                     </div>
                                 </div>
                             
