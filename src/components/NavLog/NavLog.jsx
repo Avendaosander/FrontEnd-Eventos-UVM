@@ -36,7 +36,7 @@ const Main = () => {
 						<Link to={'/eventos'} className="text-1xl font-bold cursor-pointer">
 							EVENTOS
 						</Link>
-						<Link to={`/evenForm/${token}`} className="text-1xl font-bold cursor-pointer">
+						<Link to={`/evenForm`} className="text-1xl font-bold cursor-pointer">
 							CREAR
 						</Link>
 						<img src={imgUser} alt="Usuario" className="w-8 cursor-pointer" onClick={() =>setEstadoMenu(!estadoMenu)} />
@@ -45,13 +45,13 @@ const Main = () => {
 
 					{ estadoMenu 
 						? 
-						<div className="w-64 h-auto shadow-md rounded-lg absolute right-16 top-20 flex flex-col items-center justify-center bg-slate-50 p-8">
+						<div className="w-64 h-auto shadow-md rounded-lg absolute right-16 top-20 flex flex-col items-center justify-center bg-slate-50 p-8 z-10">
 							<div className="flex flex-col justify-center items-center pb-12">
 								<img src={fotoUSer} alt="User Foto" className="w-16 justify-center ..." />
 								<span className="text-lg font-medium">Nombre del Usuario</span>
 							</div>
 							<div className="flex justify-between space-x-16">
-								<Link to={`/profile/${token}`} className="text-lg font-bold rounded-lg text-[#18551c] w-auto p-2 h-auto">
+								<Link to={`/profile`} className="text-lg font-bold rounded-lg text-[#18551c] w-auto p-2 h-auto">
 									Perfil
 								</Link>
 								<button className="text-lg font-bold rounded-lg text-[#18551c] w-auto p-2 h-auto" onClick={handleLogout}>

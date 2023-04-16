@@ -31,7 +31,7 @@ export default function Profile(){
         autenticarUsuario()
     },[])     
     const edit=()=>{
-        navigate('/form/'+token)
+        navigate('/form')
     }
     return(
         <div className="bg-white p-4 border-4 min-h-14 border-green-800/75 m-6">

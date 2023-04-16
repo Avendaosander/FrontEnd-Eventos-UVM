@@ -19,13 +19,13 @@ function App() {
       <Main/>
       <Routes>
         <Route path='/' element={<Feed/>}/>
-        <Route path='/evenForm/:id' element={<FormEvento/>}/>
+        <Route path='/evenForm' element={<FormEvento/>}/>
         <Route path='/home' element={<Home/>}/>
         <Route path='/eventos' element={<Eventos/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/reg' element={<Singup/>}/>
-        <Route path='/profile/:id' element={<Profile/>}/>
-        <Route path='/form/:id' element={<Userform/>}/>
+        <Route path='/profile' element={<Profile/>}/>
+        <Route path='/form' element={<Userform/>}/>
         <Route path='/evento/:id' element={<Evento/>}/>
       </Routes>
       <Footer/>

@@ -1,4 +1,3 @@
-import { useParams } from "react-router"
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { decodeToken } from "react-jwt";
@@ -9,18 +8,22 @@ export default function Userform(){
     const id=decodedID.id
     const navigate=useNavigate()
     const [user,setUser]=useState({})
-    console.log(user)
     const [data, setData] = useState({
-        imagePerfil:"",
+        imgPerfil:null,
 		nombre: "",
 		apellido: "",
 		biografia: "",
-		edad:"",
+		edad:'',
         telefono:"",
 	});
+    console.log(data);
     const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
-		console.log(data)
+		// console.log(data)
+	};
+    const handleImg = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.files[0] });
+		// console.log(data)
 	};
     useEffect(() => {
         const autenticarUsuario = async () => {
@@ -31,7 +34,7 @@ export default function Userform(){
             }
             try {
                 const { data } = await axios('http://localhost:3000/app/profile/' + id)
-                console.log(data)
+                // console.log(data)
                 setUser(data);
               } catch (error) {
                 console.log(error.response.data.msg);
@@ -41,18 +44,26 @@ export default function Userform(){
     },[])     
     const handleSubmit = async (e) => {
 		e.preventDefault();
+        console.log(data);
+        let body = new FormData()
+        data.imgPerfil = data.imgPerfil !== null && (body.append('imgPerfil', data.imgPerfil))
+        data.nombre = data.nombre !== '' && (body.append('nombre', data.nombre))
+        data.apellido = data.apellido !== '' && (body.append('apellido', data.apellido))
+        data.biografia = data.biografia !== '' && (body.append('biografia', data.biografia))
+        data.edad = data.edad !== '' && (body.append('edad', data.edad))
+        data.telefono = data.telefono !== '' && (body.append('telefono', data.telefono))
 		try {
 			const url = "http://localhost:3000/app/update-profile/" + id;
-			const { data: res } = await axios.post(url, data);
+			const { data: res } = await axios.post(url, body);
             console.log(res)
-            navigate('/profile/'+id)
+            navigate('/profile')
 		} catch (error) {
 			if (
 				error.response &&
 				error.response.status >= 400 &&
 				error.response.status <= 500
 			) {
-				setError(error.response.data.messageError);
+				// setError(error.response.data.messageError);
 			}
 		}
 	};
@@ -64,9 +75,8 @@ export default function Userform(){
                     <h1 className="text-xl font-semibold ...">Edita tu perfil</h1>
                 </div>
                 <input type="file"
-                onChange={handleChange}
-                value={data.imagePerfil}
-                name="imagePerfil"
+                onChange={handleImg}
+                name="imgPerfil"
                  />
                 <div className="m-4 gap-6 ...">
                 <input
@@ -75,7 +85,6 @@ export default function Userform(){
 						name="nombre"
 						onChange={handleChange}
 						value={data.nombre}
-					    required
                         className="h-10 mr-2 bg-slate-100 rounded-lg ..."
 					/>
                 <input
@@ -84,7 +93,6 @@ export default function Userform(){
 					name="apellido"
 					onChange={handleChange}
 					value={data.apellido}
-				    required
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
                 </div>
@@ -96,7 +104,6 @@ export default function Userform(){
 					name="biografia"
 					onChange={handleChange}
 					value={data.biografia}
-				    required
                     className="h-10 mx-4 mb-8 bg-slate-100 rounded-lg ..."
 				/>
                 </div>:
@@ -108,7 +115,6 @@ export default function Userform(){
 					name="edad"
 					onChange={handleChange}
 					value={data.edad}
-				    required
                     className="h-10 mx-4 mb-8 bg-slate-100 rounded-lg ..."
 				/>
                 <input
@@ -117,12 +123,11 @@ export default function Userform(){
 					name="telefono"
 					onChange={handleChange}
 					value={data.telefono}
-				    required
                     className="h-10 mx-4 bg-slate-100 rounded-lg ..."
 				/>
                 <br />
                 <button type="submit" className="m-4 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500 ...">
-					Registrate
+					Guardar cambios
 				</button>
             </form>
             :
