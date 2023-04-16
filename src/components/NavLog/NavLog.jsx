@@ -66,7 +66,9 @@ const Main = () => {
 				</div>:
 			<div className="navHo">
 				<nav className={styles.navbar}>
-				<span className="text-2xl font-bold">EventoUVM</span>
+					<Link to={'/'}>
+						<span className="text-2xl font-bold">EventoUVM</span>
+					</Link>
 					<div className={styles.end}>
 						<div className={styles.re}>
 							<Link to={'/reg'}>
