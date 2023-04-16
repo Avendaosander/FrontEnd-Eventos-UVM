@@ -2,14 +2,24 @@ import { useEffect, useState } from 'react';
 import NextEvents from "./NextEvents";
 import UltimosEventos from "./UltimosEventos";
 import Slider from "./Slider";
-
 import axios from "axios"
 import Footer from '../Footer/Footer';
-
+import { useNavigate } from 'react-router-dom';
 export default function Home(){
+    const navigate=useNavigate()
     const [dataProximos, setDataProximos] = useState([]);
     const [dataUltimos, setDataUltimos] = useState([]);
     const [dataToday, setDataToday] = useState([]);
+    useEffect(()=>{
+        const autenticarUsuario = () => {
+            const token = localStorage.getItem("token");
+            if(!token){
+                navigate("/login");
+                return;
+            }
+        }
+        autenticarUsuario()
+    },[])
 
     const dataEventos = async()=>{
         try {
@@ -84,14 +94,6 @@ export default function Home(){
                     }
                 </div>
             </div>
-
-
-            <div className="w-full flex flex-col items-center justify-center">
-                <Footer />
-            </div>
-
-            
-
         </div>
     )
 }

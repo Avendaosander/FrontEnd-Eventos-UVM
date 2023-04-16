@@ -17,9 +17,8 @@ const Login = () => {
 		try {
 			const url = "http://localhost:3000/login";
 			const { data: res } = await axios.post(url, data);
-			const id=res.user.id
-			console.log(id)
-			localStorage.setItem("token", res.data);
+			const id=res.token
+			localStorage.setItem("token", JSON.stringify(res.token));
 			navigate('/profile/'+id);
 		} catch (error) {
 			if (

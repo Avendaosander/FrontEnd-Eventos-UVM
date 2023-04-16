@@ -8,7 +8,7 @@ const Signup = () => {
 		username: "",
 		email: "",
 		password: "",
-		rol: "User"
+		rol: "Admin"
 	});
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
@@ -20,21 +20,20 @@ const Signup = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		try {
+		if(data.email==="" || data.password===""|| data.username===""){
+			setError("No puede haber campos vacios")
+		}else if(data.password.length < 6){
+			setError("La password es muy corta, necesita mas de 6 caracteres")
+			return;
+		}else try {
 			const url = "http://localhost:3000/register";
 			const { data: res } = await axios.post(url, data);
-			const id=res.user.id
+			const id=res.token
 			console.log(id)
-			localStorage.setItem("token", res.token);
-			navigate('/perfil/'+id)
+			localStorage.setItem("token", JSON.stringify(res.token));
+			navigate('/form/'+id)
 		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				setError(error.response.data.messageError);
-			}
+			setError(error.response.data.messageError);
 		}
 	};
 
@@ -54,7 +53,6 @@ const Signup = () => {
 							name="username"
 							onChange={handleChange}
 							value={data.username}
-							required
 							className='w-80 p-4 bg-green-100 my-2 text-sm rounded-lg'
 						/>
 						<input
@@ -63,7 +61,6 @@ const Signup = () => {
 							name="email"
 							onChange={handleChange}
 							value={data.email}
-							required
 							className='w-80 p-4 bg-green-100 my-2 text-sm rounded-lg'
 						/>
 						<input
@@ -72,7 +69,6 @@ const Signup = () => {
 							name="password"
 							onChange={handleChange}
 							value={data.password}
-							required
 							className='w-80 p-4 bg-green-100 my-2 text-sm rounded-lg'
 						/>
 						{error && <div className='w-80 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg'>{error}</div>}

@@ -23,31 +23,41 @@ export default function Evento () {
   return (
       <>
       {data.evento?
-      <div className="pri">
+      <div className="bg-white p-4 border-4 border-green-800/75 m-6">
       <h2 className='justify-center text-center text-2xl m-8 ...'>{data.evento.titulo}</h2>
-      <section className='grid grid-cols-2 gap-4 ...'>
-            <img src={ data.evento.imagen.secure_url } alt="imagen del evento" className='w-96 h-80 ml-20 ...'/>
-            <ul className='ml-10'>
-                <li>Organizador del Evento: {data.evento.organizador} </li>
-                <p>Participantes:</p>
+      <section className='grid grid-cols-2 gap-4 text-white ...'>
+            <div className="bg-green-800 p-8 ...">
+              <img src={ data.evento.imagen.secure_url } alt="imagen del evento"/>
+            </div>
+            <ul className='ml-10 p-8 text-lg font-semibold'>
+                <li className='m-2'><p className='text-blue-600'>Organizador del Evento: {data.evento.organizador} </p></li>
+                <li className='m-2'>Fecha: {data.evento.fecha}</li>
+                <li className='m-2'>Hora: {data.evento.hora}</li>
+                <li className='m-2'>Duración: {data.evento.duracion}</li>
+                <li className='m-2'>Lugar del Evento: {data.evento.lugar}</li>
+                <div className="flex">
+                  <p className='m-2'>Participantes: </p>
                 {data.evento.participantes.map((par)=>(
-                <li>{par}</li>
-                        ))}
-                <li>Fecha:{data.evento.fecha}</li>
-                <li>Hora: {data.evento.hora}</li>
-                <li>Duración: {data.evento.duracion}</li>
-                <li>Lugar del Evento: {data.evento.lugar}</li>
-                <button>Añadir a Favoritos<i className="fa-solid fa-star"></i></button>
+                <li className='flex m-2'>{par} ,</li>
+                ))}
+                </div>
+                <button className='m-2'>Añadir a Favoritos<i className="fa-solid fa-star"></i></button>
             </ul>
       </section>
-      <section className='contentDos'>
-            <div>
+      <section className='grid grid-cols-2 gap-4 m-8 ...'>
+            <div className='justify-center text-center m-2 text-lg font-semibold ...'>
                 <h3>Descripción:</h3>
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt, debitis.</p>
+                {data.evento.descripcion.map((des)=>(
+                  <p>{des}</p>
+                ))}
             </div>
-            <div>
+            <div className='justify-center text-center m-2 text-lg font-semibold ...'>
                 <h3>Palabras Claves:</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, pariatur!</p>
+                <div className="flex justify-center text-center">
+                  {data.evento.keywords.map((key)=>(
+                    <p>{key},</p>
+                  ))}
+                </div>
             </div>
         </section>  
       </div>:

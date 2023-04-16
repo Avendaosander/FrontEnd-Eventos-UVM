@@ -74,10 +74,6 @@ export default function Eventos () {
                     <PaginationNav1Presentation />
                 </div>
             </div>
-
-            <div className="w-full flex flex-col items-center justify-center">
-                <Footer />
-            </div>
         </div>
     )
 }

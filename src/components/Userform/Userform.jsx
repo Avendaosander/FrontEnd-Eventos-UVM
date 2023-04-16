@@ -1,15 +1,17 @@
 import { useParams } from "react-router"
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { decodeToken } from "react-jwt";
 import { useEffect, useState } from "react"
 
 export default function Userform(){
-    let params=useParams()
+    const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+    const id=decodedID.id
     const navigate=useNavigate()
-    const id=params.id
     const [user,setUser]=useState({})
     console.log(user)
     const [data, setData] = useState({
+        imagePerfil:"",
 		nombre: "",
 		apellido: "",
 		biografia: "",
@@ -61,6 +63,11 @@ export default function Userform(){
                 <div className="flex justify-center m-2 ...">
                     <h1 className="text-xl font-semibold ...">Edita tu perfil</h1>
                 </div>
+                <input type="file"
+                onChange={handleChange}
+                value={data.imagePerfil}
+                name="imagePerfil"
+                 />
                 <div className="m-4 gap-6 ...">
                 <input
 						type="text"

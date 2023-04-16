@@ -1,15 +1,18 @@
-import { useParams } from "react-router"
+
 import img from "../../assets/uvm.png"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
+import { decodeToken } from "react-jwt";
 
 
 export default function Profile(){
-    const params=useParams()
     const navigate=useNavigate()
     const [user,setUser]=useState({})
-    const id=params.id
+    const token = localStorage.getItem("token");
+    const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+    const id=decodedID.id
+
     useEffect(() => {
         const autenticarUsuario = async () => {
             const token = localStorage.getItem("token");
@@ -28,10 +31,10 @@ export default function Profile(){
         autenticarUsuario()
     },[])     
     const edit=()=>{
-        navigate('/form/'+id)
+        navigate('/form/'+token)
     }
     return(
-        <div className="">
+        <div className="bg-white p-4 border-4 min-h-14 border-green-800/75 m-6">
             <div className="flex justify-center ...">
                 <div className="m-8 ...">
                     <img src={img} alt=""  className="w-40"/>
