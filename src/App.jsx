@@ -10,6 +10,7 @@ import Userform from './components/Userform/Userform'
 import Evento from './components/Evento/Evento'
 import Eventos from './components/Eventos/Eventos'
 import FormEvento from './components/FormEvento/FormEvento'
+import Footer from './components/Footer/Footer'
 
 function App() {
   const user = localStorage.getItem("token");
@@ -18,8 +19,8 @@ function App() {
       <Main/>
       <Routes>
         <Route path='/feed' element={<Feed/>}/>
-        <Route path='/evenForm' element={<FormEvento/>}/>
-        <Route path='/' element={<Home/>}/>
+        <Route path='/evenForm/:id' element={<FormEvento/>}/>
+        <Route path='/home' element={<Home/>}/>
         <Route path='/eventos' element={<Eventos/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/reg' element={<Singup/>}/>
@@ -27,6 +28,7 @@ function App() {
         <Route path='/form/:id' element={<Userform/>}/>
         <Route path='/evento/:id' element={<Evento/>}/>
       </Routes>
+      <Footer/>
     </div>
   )
 }

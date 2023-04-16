@@ -30,15 +30,15 @@ const Main = () => {
 					</div>
 
 					<div className="flex container w-full h-full space-x-8 items-center justify-end">
-						<Link to={'/'} className="text-1xl font-bold cursor-pointer">
+						<Link to={'/home'} className="text-1xl font-bold cursor-pointer">
 							HOME
 						</Link>
 						<Link to={'/eventos'} className="text-1xl font-bold cursor-pointer">
 							EVENTOS
 						</Link>
-
-
-
+						<Link to={`/evenForm/${token}`} className="text-1xl font-bold cursor-pointer">
+							CREAR
+						</Link>
 						<img src={imgUser} alt="Usuario" className="w-8 cursor-pointer" onClick={() =>setEstadoMenu(!estadoMenu)} />
 					</div>
 					</Navbar> 
