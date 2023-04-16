@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <Main/>
       <Routes>
-        <Route path='/feed' element={<Feed/>}/>
+        <Route path='/' element={<Feed/>}/>
         <Route path='/evenForm/:id' element={<FormEvento/>}/>
         <Route path='/home' element={<Home/>}/>
         <Route path='/eventos' element={<Eventos/>}/>
