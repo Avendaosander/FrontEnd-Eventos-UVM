@@ -2,10 +2,12 @@ import React from 'react';
 import { useParams } from "react-router"
 import { useEffect, useState } from "react"
 import axios from 'axios';
+import { useNavigate, Link } from "react-router-dom";
 
 
 export default function Evento () {
   const params=useParams()
+  const navigate=useNavigate()
   console.log(params.id)
   const [data,setData]=useState({})
   const even= async ()=>{
@@ -20,6 +22,15 @@ export default function Evento () {
   useEffect(()=>{
     even()
   },[])
+  const handleDelete=async()=>{
+    try {
+      const {data:res}=await axios.post(`http://localhost:3000/events/delete-event/${params.id}`)
+      console.log(res)
+      navigate('/home')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   return (
       <>
       {data.evento?
@@ -33,7 +44,7 @@ export default function Evento () {
                 <li className='m-2'><p className='text-blue-600'>Organizador del Evento: {data.evento.organizador} </p></li>
                 <li className='m-2'>Fecha: {data.evento.fecha}</li>
                 <li className='m-2'>Hora: {data.evento.hora}</li>
-                <li className='m-2'>Duración: {data.evento.duracion}</li>
+                <li className='m-2'>Facultad: {data.evento.facultad}</li>
                 <li className='m-2'>Lugar del Evento: {data.evento.lugar}</li>
                 <div className="flex">
                   <p className='m-2'>Participantes: </p>
@@ -42,6 +53,7 @@ export default function Evento () {
                     ))}
                 </div>
                 <button className='m-2 px-3 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500'>Añadir a Favoritos<i className="fa-solid fa-star"></i></button>
+                <button className='m-2 px-3 bg-red-500 h-10 rounded-full text-white font-semibold text-white-500' onClick={handleDelete}>Eliminar Evento<i className="fa-solid fa-star"></i></button>
             </ul>
       </section>
       <section className='grid grid-cols-2 gap-4 m-8 ...'>
@@ -60,6 +72,9 @@ export default function Evento () {
                 </div>
             </div>
         </section>  
+        <Link to={`/edit/${params.id}`}>
+          <button className='m-2 px-3 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500'>Editar<i className="fa-solid fa-star"></i></button>
+        </Link>
       </div>:
       <div className="ca">
         <h1>Cargando</h1>

@@ -11,6 +11,7 @@ import Evento from './components/Evento/Evento'
 import Eventos from './components/Eventos/Eventos'
 import FormEvento from './components/FormEvento/FormEvento'
 import Footer from './components/Footer/Footer'
+import EditEvento from './components/EditarEvento/FormEvenEdit'
 
 function App() {
   const user = localStorage.getItem("token");
@@ -27,6 +28,7 @@ function App() {
         <Route path='/profile' element={<Profile/>}/>
         <Route path='/form' element={<Userform/>}/>
         <Route path='/evento/:id' element={<Evento/>}/>
+        <Route path='/edit/:id' element={<EditEvento/>}/>
       </Routes>
       <Footer/>
     </div>

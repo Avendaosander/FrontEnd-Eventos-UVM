@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react"
-import { decodeToken } from "react-jwt";
+import { useParams } from "react-router";
 
-export default function FormEvento(){
+export default function EditEvento(){
     const navigate=useNavigate()
+    const params=useParams()
+    const id=params.id
     const [error,setError]=useState('')
     const [key,setKey]=useState("")
     const [des,setDes]=useState("")
-    const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
-    const id=decodedID.id
     const categoria=["Computación","Industrial","Administracion","Contaduria","Robotica","Derecho","Matemática","Humanitas","Lógica","Electricidad","Física","Estadística","Programación","Química","Mecanica","Termodinámica","Íngles"]
     const tipo=["Videoconferencia","Foro Chat","Presentación","Diplomado","Dinámica","Encuesta","Chats","Juegos Interactivos","Stand Virtual","Streaming","Aula Virtual","Taller"]
     const [data, setData] = useState({
@@ -109,10 +109,10 @@ export default function FormEvento(){
         data.lugar = data.lugar !== '' && (body.append('lugar', data.lugar))
 
 		try {
-			const url = "http://localhost:3000/events/create-event/" + id;
+			const url = "http://localhost:3000/events/update-event/" + id;
 			const { data: res } = await axios.post(url, body);
             console.log(res)
-            navigate('/profile')
+            navigate(`/evento/${id}`)
 		} catch (error) {
 			if (
 				error.response &&
@@ -137,7 +137,7 @@ export default function FormEvento(){
         <div className="flex justify-center m-10 w-98 ...">
             <form className="flex flex-col min-w-[70%] bg-slate-200 p-2 bg-white rounded-lg ..." onSubmit={handleSubmit}>
                 <div className="flex justify-center m-2 ...">
-                    <h1 className="text-xl font-semibold ...">Edita tu perfil</h1>
+                    <h1 className="text-xl font-semibold ...">Edita tu evento</h1>
                 </div>
                 <input 
                 type="file" 
@@ -149,8 +149,7 @@ export default function FormEvento(){
 					placeholder="Titulo del evento"
 					name="titulo"
 					onChange={handleChange}
-					value={data.titulo}
-				    required
+					value={data.titulo}		    
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
                 <div className="m-4 gap-6 ...">
@@ -159,8 +158,7 @@ export default function FormEvento(){
 						placeholder="Nombre del organizador"
 						name="organizador"
 						onChange={handleChange}
-						value={data.organizador}
-					    required
+						value={data.organizador}				    
                         className="h-10 mr-2 bg-slate-100 rounded-lg ..."
 					/>
                <input
@@ -168,15 +166,14 @@ export default function FormEvento(){
 					placeholder="Hora del evento"
 					name="hora"
 					onChange={handleChange}
-					value={data.hora}
-				    required
+					value={data.hora}				    
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
                 </div>
                 <div className="select">
                     <label> Facultad:</label>
                     <br />
-                    <select onChange={(e)=>handleSelect(e)} name="facultad" value={data.facultad} required>   
+                    <select onChange={(e)=>handleSelect(e)} name="facultad" value={data.facultad} >   
                         <option value="Facultad De Ingienieria">Facultad de ingeniería</option>
                         <option value="Facultad de ciencias económicas, administrativas y gerenciales">Facultad de ciencias económicas, administrativas y gerenciales</option>
                         <option value="Facultad de ciencias jurídicas, políticas y sociales">Facultad de ciencias jurídicas, políticas y sociales</option>
@@ -187,14 +184,13 @@ export default function FormEvento(){
 					placeholder="Descripcion del evento"
 					name="descripcion"
 					onChange={handleDes}
-					value={des}
-				    required
+					value={des}				    
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
                 <div className="select">
                     <label> Tipo de evento:</label>
                     <br />
-                    <select onChange={(e)=>handleTip(e)} name="tipo" value={data.tipo} required>   
+                    <select onChange={(e)=>handleTip(e)} name="tipo" value={data.tipo} >   
                         {tipo.map((tip)=>(
                             <option value={tip} name="facultad">{tip}</option>
                         ))}
@@ -213,8 +209,7 @@ export default function FormEvento(){
                         placeholder="Palabras claves"
                         name="keywords"
                         onChange={handleArra}
-                        value={key}
-                        required
+                        value={key}                       
                         className="h-10 ml-2 col-span-2 bg-slate-100 rounded-lg mr-4 ..."
                     />
                     <button type="reset" className="bg-green-700 rounded-lg"  onClick={handleKey}>
@@ -232,7 +227,7 @@ export default function FormEvento(){
                 <div className="select">
                     <label> Categoria del evento:</label>
                     <br />
-                    <select onChange={(e)=>handleCat(e)} name="categoria" value={data.categoria} required>   
+                    <select onChange={(e)=>handleCat(e)} name="categoria" value={data.categoria} >   
                         {categoria.map((cat)=>(
                             <option value={cat} name="categoria">{cat}</option>
                         ))}
@@ -251,8 +246,7 @@ export default function FormEvento(){
 					placeholder="Fecha del evento"
 					name="fecha"
 					onChange={handleChange}
-					value={data.fecha}
-				    required
+					value={data.fecha}				    
                     className="h-10 ml-2 m-2 bg-slate-100 rounded-lg ..."
 				/>
                 <input
@@ -260,13 +254,12 @@ export default function FormEvento(){
 					placeholder="Lugar del evento"
 					name="lugar"
 					onChange={handleChange}
-					value={data.lugar}
-				    required
+					value={data.lugar}				    
                     className="h-10 ml-2 m-2 bg-slate-100 rounded-lg ..."
 				/>
                 {error && <div className='w-98 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg justify-center text-center'>{error}</div>}
                 <button type="submit" className="m-4 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500 ...">
-					Registrate
+					Editar
 				</button>
             </form>
         </div>
