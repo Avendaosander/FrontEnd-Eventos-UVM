@@ -8,7 +8,7 @@ const Signup = () => {
 		username: "",
 		email: "",
 		password: "",
-		rol: "Admin"
+		rol: "User"
 	});
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
@@ -31,7 +31,7 @@ const Signup = () => {
 			const id=res.token
 			console.log(id)
 			localStorage.setItem("token", JSON.stringify(res.token));
-			navigate('/form/'+id)
+			navigate('/form')
 		} catch (error) {
 			setError(error.response.data.messageError);
 		}
