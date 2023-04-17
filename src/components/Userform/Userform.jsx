@@ -7,6 +7,7 @@ export default function Userform(){
     const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
     const id=decodedID.id
     const navigate=useNavigate()
+    const [error, setError] = useState("");
     const [user,setUser]=useState({})
     const [data, setData] = useState({
         imgPerfil:null,
@@ -43,29 +44,38 @@ export default function Userform(){
         autenticarUsuario()
     },[])     
     const handleSubmit = async (e) => {
-		e.preventDefault();
-        console.log(data);
-        let body = new FormData()
-        data.imgPerfil = data.imgPerfil !== null && (body.append('imgPerfil', data.imgPerfil))
-        data.nombre = data.nombre !== '' && (body.append('nombre', data.nombre))
-        data.apellido = data.apellido !== '' && (body.append('apellido', data.apellido))
-        data.biografia = data.biografia !== '' && (body.append('biografia', data.biografia))
-        data.edad = data.edad !== '' && (body.append('edad', data.edad))
-        data.telefono = data.telefono !== '' && (body.append('telefono', data.telefono))
-		try {
-			const url = "http://localhost:3000/app/update-profile/" + id;
-			const { data: res } = await axios.post(url, body);
-            console.log(res)
-            navigate('/profile')
-		} catch (error) {
-			if (
-				error.response &&
-				error.response.status >= 400 &&
-				error.response.status <= 500
-			) {
-				// setError(error.response.data.messageError);
-			}
-		}
+        if (data.edad !=="" && data.edad>90 || data.edad !=="" && data.edad<15 ) {
+            e.preventDefault()
+            setError("Ingresa una edad valida por favor")
+        }else if (isNaN(data.telefono)===true) {
+            e.preventDefault()
+            setError("No se permiten letras en el numero")
+        } else{
+            e.preventDefault();
+            console.log(data);
+            let body = new FormData()
+            data.imgPerfil = data.imgPerfil !== null && (body.append('imgPerfil', data.imgPerfil))
+            data.nombre = data.nombre !== '' && (body.append('nombre', data.nombre))
+            data.apellido = data.apellido !== '' && (body.append('apellido', data.apellido))
+            data.biografia = data.biografia !== '' && (body.append('biografia', data.biografia))
+            data.edad = data.edad !== '' && (body.append('edad', data.edad))
+            data.telefono = data.telefono !== '' && (body.append('telefono', data.telefono))
+            try {
+                const url = "http://localhost:3000/app/update-profile/" + id;
+                const { data: res } = await axios.post(url, body);
+                console.log(res)
+                navigate('/profile')
+            } catch (error) {
+                if (
+                    error.response &&
+                    error.response.status >= 400 &&
+                    error.response.status <= 500
+                ) {
+                    // setError(error.response.data.messageError);
+                }
+            }            
+        }
+
 	};
     return(
         <div className="flex justify-center m-10 ...">
@@ -125,6 +135,7 @@ export default function Userform(){
 					value={data.telefono}
                     className="h-10 mx-4 bg-slate-100 rounded-lg ..."
 				/>
+                {error && <div className='w-80 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg'>{error}</div>}
                 <br />
                 <button type="submit" className="m-4 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500 ...">
 					Guardar cambios

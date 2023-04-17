@@ -13,7 +13,7 @@ export default function FormEvento(){
     const categoria=["Computación","Industrial","Administracion","Contaduria","Robotica","Derecho","Matemática","Humanitas","Lógica","Electricidad","Física","Estadística","Programación","Química","Mecanica","Termodinámica","Íngles"]
     const tipo=["Videoconferencia","Foro Chat","Presentación","Diplomado","Dinámica","Encuesta","Chats","Juegos Interactivos","Stand Virtual","Streaming","Aula Virtual","Taller"]
     const [data, setData] = useState({
-        img:"",
+        imagen:null,
 		organizador: "",
 		titulo: "",
 		descripcion: [],
@@ -37,6 +37,10 @@ export default function FormEvento(){
             facultad: e.target.value
         })
     }
+    const handleImg = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.files[0] });
+		// console.log(data)
+	};
     function handleTip(e){
         if (data.tipo.find(i=>i===e.target.value)) {
             alert("no puedes agregar 2 tipos de evento iguales") 
@@ -81,17 +85,31 @@ export default function FormEvento(){
 	};
     console.log(data)    
     const handleSubmit = async (e) => {
-		e.preventDefault();
         setData({
             ...data,
             descripcion:[...data.descripcion, des]
         })
-        console.log(data)
+        e.preventDefault();
+        console.log(data);
+        let body = new FormData()
+        data.imagen = data.imagen !== null && (body.append('imagen', data.imagen))
+        data.organizador = data.organizador !== '' && (body.append('organizador', data.organizador))
+        data.titulo = data.titulo !== '' && (body.append('titulo', data.titulo))
+        data.descripcion = data.descripcion.length !== 0 && (body.append('descripcion', data.descripcion))
+        data.keywords = data.keywords.length !== 0 && (body.append('keywords', data.keywords))
+        data.facultad = data.facultad !== '' && (body.append('facultad', data.facultad))
+        data.tipo = data.tipo.length !== 0 && (body.append('tipo', data.tipo))
+        data.categoria = data.categoria.length !== 0 && (body.append('categoria', data.categoria))
+        data.fecha = data.fecha !== '' && (body.append('fecha', data.fecha))
+        data.hora = data.hora !== '' && (body.append('hora', data.hora))
+        data.duracion = data.duracion !== '' && (body.append('duracion', data.duracion))
+        data.lugar = data.lugar !== '' && (body.append('lugar', data.lugar))
+
 		try {
 			const url = "http://localhost:3000/events/create-event/" + id;
-			const { data: res } = await axios.post(url, data);
+			const { data: res } = await axios.post(url, body);
             console.log(res)
-            navigate('/profile/'+id)
+            navigate('/profile')
 		} catch (error) {
 			if (
 				error.response &&
@@ -120,7 +138,8 @@ export default function FormEvento(){
                 </div>
                 <input 
                 type="file" 
-                accept="image/png, image/jpeg"
+                name="imagen"
+                onChange={handleImg}
                 />
                 <input
 					type="text"

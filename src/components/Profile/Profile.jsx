@@ -36,11 +36,17 @@ export default function Profile(){
     return(
         <div className="bg-white p-4 border-4 min-h-14 border-green-800/75 m-6">
             <div className="flex justify-center ...">
+                {user.user?
+                <div className="m-8">
+                    <img src={user.user.imgPerfil.secure_url} alt="img_not_fund"  className="w-40"/>
+                </div>:
                 <div className="m-8 ...">
-                    <img src={img} alt=""  className="w-40"/>
+                    <img src={img} alt="img_not_fund"  className="w-40"/>
                 </div>
+                }
                 <div className="m-8 ...">
                     <h1 className="m-2 font-semibold ...">Nombre:</h1>
+                    <h1 className="m-2 font-semibold ...">Apellido:</h1>
                     <h1 className="m-2 font-semibold ...">Nombre de Usuario:</h1>
                     <h1 className="m-2 font-semibold ...">Email:</h1>
                     <h1 className="m-2 font-semibold ...">Edad:</h1>
@@ -51,6 +57,7 @@ export default function Profile(){
                     user.user?
                 <div className="m-8 ...">
                     <h1 className="m-2 font-semibold ...">{user.user.nombre}</h1>
+                    <h1 className="m-2 font-semibold ...">{user.user.apellido}</h1>
                     <h1 className="m-2 font-semibold ...">{user.user.username}</h1>
                     <h1 className="m-2 font-semibold ...">{user.user.email}</h1>
                     <h1 className="m-2 font-semibold ...">{user.user.edad}</h1>
