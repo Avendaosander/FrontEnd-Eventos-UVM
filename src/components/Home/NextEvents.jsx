@@ -7,7 +7,7 @@ import HoraFormat from '../HoraFormat/HoraFormat';
 
 export default function NextEvents(dataEvents){
     const dataEvent = Object.values(dataEvents);
-    console.log(dataEvent)
+    //console.log(dataEvent)
     
     return(
         <>
