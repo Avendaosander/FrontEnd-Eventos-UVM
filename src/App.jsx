@@ -1,4 +1,7 @@
 import './App.css'
+import UserContext from './context/UserContext'
+import { decodeToken } from "react-jwt";
+import axios from 'axios';
 import Login from './components/Login/Login'
 import { Route, Routes,Navigate } from 'react-router-dom'
 import Singup from './components/Register/Register'
@@ -13,27 +16,54 @@ import FormEvento from './components/FormEvento/FormEvento'
 import EditEvento from './components/EditarEvento/FormEvenEdit'
 import Favoritos from './components/Favoritos/Favoritos'
 import Footer from './components/Footer/Footer'
-
+import { useEffect, useState } from 'react';
 
 function App() {
-  const user = localStorage.getItem("token");
+  // const [token,setToken] = useState("")
+  // const [rol,setRol]=useState({
+  //   rol:""
+  // })
+  // if (localStorage.getItem("token"===null)) {
+  //   setToken(null) 
+  // }else{
+  //   setToken(localStorage.getItem("token"))
+  // }
+  // useEffect(()=>{
+  //   if (token!==null) {
+  //     const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+  //     const id=decodedID.id
+  //     const userRol= async()=>{
+  //       try {
+  //         const { data } = await axios('http://localhost:3000/app/profile/' + id)
+  //         console.log(data.user.rol)
+  //         setRol({
+  //           rol:data.user.rol
+  //         });
+  //       } catch (error) {
+  //         console.log(error)
+  //       }
+  //     }
+  //     userRol()
+  //   }
+  // },[token])
   return (
     <div className="App">
-      <Main/>
-      <Routes>
-        <Route path='/' element={<Feed/>}/>
-        <Route path='/evenForm' element={<FormEvento/>}/>
-        <Route path='/home' element={<Home/>}/>
-        <Route path='/eventos' element={<Eventos/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/reg' element={<Singup/>}/>
-        <Route path='/profile' element={<Profile/>}/>
-        <Route path='/form' element={<Userform/>}/>
-        <Route path='/evento/:id' element={<Evento/>}/>
-        <Route path='/edit/:id' element={<EditEvento/>}/>
-        <Route path='/eventos-favoritos' element={<Favoritos/>}/>
-      </Routes>
-      <Footer />
+      {/* <UserContext> */}
+        <Main/>
+          <Routes>
+            <Route path='/' element={<Feed/>}/>
+            <Route path='/evenForm' element={<FormEvento/>}/>
+            <Route path='/home' element={<Home/>}/>
+            <Route path='/eventos' element={<Eventos/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/reg' element={<Singup/>}/>
+            <Route path='/profile' element={<Profile/>}/>
+            <Route path='/form' element={<Userform/>}/>
+            <Route path='/evento/:id' element={<Evento/>}/>
+            <Route path='/edit/:id' element={<EditEvento/>}/>
+          </Routes>
+        <Footer/>
+      {/* </UserContext> */}
     </div>
   )
 }
