@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Footer from '../Footer/Footer'
 export default function Feed () {
   return (
     <>
@@ -69,6 +69,7 @@ export default function Feed () {
             </div>
         </div>
         </div>
+        {/*<Footer/>*/}
     </>
   )
 }
