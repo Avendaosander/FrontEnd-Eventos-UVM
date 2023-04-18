@@ -3,7 +3,11 @@ import img from "../../assets/uvm.png"
 import axios from "axios"
 import { useEffect } from "react"
 
-
+/**
+ * Prueba que la función registra params.id y datos de información cuando params.id está definido y es válido
+ * la función registra datos de información y muestra el HTML esperado cuando la llamada axios devuelve los datos esperados
+ * @returns 
+ */
 export default function Profile(){
     let params=useParams()
     console.log(params.id)

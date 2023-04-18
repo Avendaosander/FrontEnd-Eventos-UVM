@@ -10,6 +10,12 @@ import {
 import imgUser from './user.svg';
 import fotoUSer from './user.png';
 
+/**
+ * Prueba que la barra de navegación muestra los enlaces correctos cuando el usuario inicia sesión
+ * Al hacer clic en el icono de usuario se alterna el menú
+ * Al hacer clic en cerrar sesión se elimina el token y se vuelve a cargar la página
+ * @returns 
+ */
 const Main = () => {
 	const handleLogout = () => {
 		localStorage.removeItem("token");

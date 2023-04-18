@@ -1,3 +1,8 @@
+/**
+ * Prueba que el formulario se envía con una entrada válida
+ * Que el formulario se muestra sin errores
+ *  @returns 
+ */
 export default function Userform(){
     return(
         <div className="pro">

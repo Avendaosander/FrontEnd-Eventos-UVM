@@ -4,6 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import uvR from "../../assets/uvm.png"
 
+/**
+ * Esta funcion prueba de que el usuario puede registrarse correctamente con una entrada válida
+ * Y que el usuario no puede registrarse con campos vacíos y recibe un mensaje de error
+ * @returns 
+ */
 const Signup = () => {
 	const [data, setData] = useState({
 		username: "",
@@ -18,6 +23,13 @@ const Signup = () => {
 		setData({ ...data, [input.name]: input.value });
 		console.log(data)
 	};
+
+/**
+ * 
+ * Se muestra un mensaje de error si falla el envío del formulario
+ * El usuario es redirigido a la página de inicio de sesión después de enviar correctamente el formulario
+ * 
+ */
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

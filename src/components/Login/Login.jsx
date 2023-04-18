@@ -4,6 +4,15 @@ import styles from "./styles.module.css";
 import uvR from "../../assets/uvm.png"
 import { Link, useNavigate } from "react-router-dom";
 
+/**
+ * Esra funcion prueba el inicio de sesión exitoso y la redirección a la página de perfil
+ * Muestra la visualización del mensaje de error cuando el usuario ingresa un formato de correo electrónico no válido
+ * Visualiza el mensaje de error cuando el usuario envía el formulario sin ingresar ninguna información
+ * visualiza eL mensajes de error cuando el usuario ingresa un correo electrónico y/o una contraseña que excede el límite máximo de caracteres
+ * Prueba que el token recibido del servidor se almacene correctamente en localStorage
+ * la función setError actualiza el estado de error si el servidor devuelve una respuesta de error
+ * @returns 
+ */
 const Login = () => {
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
