@@ -37,8 +37,8 @@ export default function Profile(){
         <div className="bg-white p-4 border-4 min-h-14 border-green-800/75 m-6">
             <div className="flex justify-center ...">
                 {user.user?
-                <div className="m-8">
-                    <img src={user.user.imgPerfil.secure_url} alt="img_not_fund"  className="w-40"/>
+                <div className="m-8 rounded-full">
+                    <img src={user.user.imgPerfil.secure_url} alt="img_not_fund"  className="w-48 rounded-full"/>
                 </div>:
                 <div className="m-8 ...">
                     <img src={img} alt="img_not_fund"  className="w-40"/>
