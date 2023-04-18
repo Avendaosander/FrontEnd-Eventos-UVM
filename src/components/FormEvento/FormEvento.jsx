@@ -4,6 +4,11 @@ import { useEffect, useState } from "react"
 import { decodeToken } from "react-jwt";
 
 export default function FormEvento(){
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth() + 1;
+    var year = today.getFullYear();
+    let fecha=`${year}/${month}/${day}`
     const navigate=useNavigate()
     const [error,setError]=useState('')
     const [key,setKey]=useState("")
@@ -25,11 +30,11 @@ export default function FormEvento(){
         hora:"",
         lugar:''
 	});
-
     const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 		console.log(data)
 	};
+
     function handleSelect(e){
         setData({
             ...data,
@@ -69,6 +74,10 @@ export default function FormEvento(){
         })
     }
     function handleKey(){
+        setData({
+            ...data,
+            descripcion:[...data.descripcion, des]
+        })
         if (data.keywords.find(i=>i===key)) {
             setError("No puedes agregar 2 palabras claves iguales") 
         }else{
@@ -88,11 +97,23 @@ export default function FormEvento(){
 	};
     console.log(data)    
     const handleSubmit = async (e) => {
-        setData({
-            ...data,
-            descripcion:[...data.descripcion, des]
-        })
-        e.preventDefault();
+        if (data.imagen===null) {
+            e.preventDefault()
+            setError("Por favor ingresa la imagen del evento")
+        } else if (data.organizador,data.titulo,data.facultad,data.fecha,data.hora,data.lugar==="") {
+            e.preventDefault()
+            setError("Hay campos vacios, todos tienen que llenarse para crear un evento")
+        }else if (data.keywords.length===0) {
+            e.preventDefault()
+            setError("Por favor agrega las palabras clave del evento")
+        }else if (data.tipo.length===0) {
+            e.preventDefault()
+            setError("Por favor agrega los tipos de actividades que contenga tu evento")
+        }else if (data.categoria.length===0) {
+            e.preventDefault()
+            setError("Por favor agrega las categorias de tu evento")
+        }else{
+            e.preventDefault();
         console.log(data);
         let body = new FormData()
         data.imagen = data.imagen !== null && (body.append('imagen', data.imagen))
@@ -105,7 +126,6 @@ export default function FormEvento(){
         data.categoria = data.categoria.length !== 0 && (body.append('categoria', data.categoria))
         data.fecha = data.fecha !== '' && (body.append('fecha', data.fecha))
         data.hora = data.hora !== '' && (body.append('hora', data.hora))
-        data.duracion = data.duracion !== '' && (body.append('duracion', data.duracion))
         data.lugar = data.lugar !== '' && (body.append('lugar', data.lugar))
 
 		try {
@@ -122,6 +142,8 @@ export default function FormEvento(){
 				setError(error.response.data.messageError);
 			}
 		}
+        }
+        
 	};
     useEffect(() => {
         const autenticarUsuario = () => {
@@ -150,51 +172,52 @@ export default function FormEvento(){
 					name="titulo"
 					onChange={handleChange}
 					value={data.titulo}
-				    required
+				    
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
-                <div className="m-4 gap-6 ...">
+                <div className="m-4 gap-6 grid grid-cols-4  ...">
                 <input
 						type="text"
 						placeholder="Nombre del organizador"
 						name="organizador"
 						onChange={handleChange}
 						value={data.organizador}
-					    required
-                        className="h-10 mr-2 bg-slate-100 rounded-lg ..."
+					    
+                        className="h-10 col-span-2 mr-2 bg-slate-100 rounded-lg ..."
 					/>
-               <input
-					type="time"
-					placeholder="Hora del evento"
-					name="hora"
-					onChange={handleChange}
-					value={data.hora}
-				    required
-                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
-				/>
-                </div>
-                <div className="select">
-                    <label> Facultad:</label>
-                    <br />
-                    <select onChange={(e)=>handleSelect(e)} name="facultad" value={data.facultad} required>   
-                        <option value="Facultad De Ingienieria">Facultad de ingeniería</option>
-                        <option value="Facultad de ciencias económicas, administrativas y gerenciales">Facultad de ciencias económicas, administrativas y gerenciales</option>
-                        <option value="Facultad de ciencias jurídicas, políticas y sociales">Facultad de ciencias jurídicas, políticas y sociales</option>
-                    </select>
+                <div className="text-center place-items-center justify-center">
+                    <p className="mt-2">Hora Del Evento:</p>
                 </div>
                 <input
 					type="text"
 					placeholder="Descripcion del evento"
 					name="descripcion"
 					onChange={handleDes}
-					value={des}
-				    required
+					value={des}	    
                     className="h-10 ml-2 bg-slate-100 rounded-lg ..."
 				/>
+               <input
+					type="time"
+					placeholder="Hora del evento"
+					name="hora"
+					onChange={handleChange}
+					value={data.hora}
+                    className="h-10 bg-slate-100 rounded-lg ..."
+				/>
+                </div>
+                <div className="select">
+                    <label> Facultad:</label>
+                    <br />
+                    <select onChange={(e)=>handleSelect(e)} name="facultad" value={data.facultad} >   
+                        <option value="Facultad De Ingienieria">Facultad de ingeniería</option>
+                        <option value="Facultad de ciencias económicas, administrativas y gerenciales">Facultad de ciencias económicas, administrativas y gerenciales</option>
+                        <option value="Facultad de ciencias jurídicas, políticas y sociales">Facultad de ciencias jurídicas, políticas y sociales</option>
+                    </select>
+                </div>
                 <div className="select">
                     <label> Tipo de evento:</label>
                     <br />
-                    <select onChange={(e)=>handleTip(e)} name="tipo" value={data.tipo} required>   
+                    <select onChange={(e)=>handleTip(e)} name="tipo" value={data.tipo} >   
                         {tipo.map((tip)=>(
                             <option value={tip} name="facultad">{tip}</option>
                         ))}
@@ -214,7 +237,7 @@ export default function FormEvento(){
                         name="keywords"
                         onChange={handleArra}
                         value={key}
-                        required
+                        
                         className="h-10 ml-2 col-span-2 bg-slate-100 rounded-lg mr-4 ..."
                     />
                     <button type="reset" className="bg-green-700 rounded-lg"  onClick={handleKey}>
@@ -232,7 +255,7 @@ export default function FormEvento(){
                 <div className="select">
                     <label> Categoria del evento:</label>
                     <br />
-                    <select onChange={(e)=>handleCat(e)} name="categoria" value={data.categoria} required>   
+                    <select onChange={(e)=>handleCat(e)} name="categoria" value={data.categoria} >   
                         {categoria.map((cat)=>(
                             <option value={cat} name="categoria">{cat}</option>
                         ))}
@@ -252,7 +275,7 @@ export default function FormEvento(){
 					name="fecha"
 					onChange={handleChange}
 					value={data.fecha}
-				    required
+                    min={fecha}
                     className="h-10 ml-2 m-2 bg-slate-100 rounded-lg ..."
 				/>
                 <input
@@ -261,7 +284,7 @@ export default function FormEvento(){
 					name="lugar"
 					onChange={handleChange}
 					value={data.lugar}
-				    required
+				    
                     className="h-10 ml-2 m-2 bg-slate-100 rounded-lg ..."
 				/>
                 {error && <div className='w-98 p-4 my-2 text-sm text-white bg-red-500 text-center rounded-lg justify-center text-center'>{error}</div>}
