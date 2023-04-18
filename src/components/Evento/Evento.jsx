@@ -2,12 +2,15 @@ import React from 'react';
 import { useParams } from "react-router"
 import { useEffect, useState } from "react"
 import axios from 'axios';
+import { decodeToken } from "react-jwt";
 import { useNavigate, Link } from "react-router-dom";
 
 
 export default function Evento () {
   const params=useParams()
   const navigate=useNavigate()
+  const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+  const id=decodedID.id
   console.log(params.id)
   const [data,setData]=useState({})
   const even= async ()=>{
@@ -22,6 +25,18 @@ export default function Evento () {
   useEffect(()=>{
     even()
   },[])
+  const handleParti=async()=>{
+    let body = new FormData()
+    params.id = params.id !== '' && (body.append('eventID', params.id))
+    try {
+      const url = "http://localhost:3000/events/toggle-asist/" + id;
+			const { data: res } = await axios.post(url, body);
+      console.log(res)
+      navigate('/home')
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const handleDelete=async()=>{
     try {
       const {data:res}=await axios.post(`http://localhost:3000/events/delete-event/${params.id}`)
@@ -75,6 +90,7 @@ export default function Evento () {
         <Link to={`/edit/${params.id}`}>
           <button className='m-2 px-3 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500'>Editar<i className="fa-solid fa-star"></i></button>
         </Link>
+        <button onClick={handleParti} className='m-2 px-3 bg-green-700 h-10 rounded-full text-white font-semibold text-white-500'>Participaras?<i className="fa-solid fa-star"></i></button>
       </div>:
       <div className="ca">
         <h1>Cargando</h1>
