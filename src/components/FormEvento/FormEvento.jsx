@@ -13,8 +13,7 @@ export default function FormEvento(){
     const [error,setError]=useState('')
     const [key,setKey]=useState("")
     const [des,setDes]=useState("")
-    const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
-    const id=decodedID.id
+    const token=localStorage.getItem("token")
     const categoria=["Computación","Industrial","Administracion","Contaduria","Robotica","Derecho","Matemática","Humanitas","Lógica","Electricidad","Física","Estadística","Programación","Química","Mecanica","Termodinámica","Íngles"]
     const tipo=["Videoconferencia","Foro Chat","Presentación","Diplomado","Dinámica","Encuesta","Chats","Juegos Interactivos","Stand Virtual","Streaming","Aula Virtual","Taller"]
     const [data, setData] = useState({
@@ -115,6 +114,8 @@ export default function FormEvento(){
         }else{
             e.preventDefault();
         console.log(data);
+        const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+        const id=decodedID.id
         let body = new FormData()
         data.imagen = data.imagen !== null && (body.append('imagen', data.imagen))
         data.organizador = data.organizador !== '' && (body.append('organizador', data.organizador))
@@ -130,7 +131,9 @@ export default function FormEvento(){
 
 		try {
 			const url = "http://localhost:3000/events/create-event/" + id;
-			const { data: res } = await axios.post(url, body);
+			const { data: res } = await axios.post(url, body,  {
+                headers: {Authorization: "Bearer " + JSON.parse(token)}
+            });
             console.log(res)
             navigate('/profile')
 		} catch (error) {
@@ -148,9 +151,12 @@ export default function FormEvento(){
     useEffect(() => {
         const autenticarUsuario = () => {
             const token = localStorage.getItem("token");
+            const rol=localStorage.getItem("rol")
             if(!token){
                 navigate("/login");
                 return;
+            }else if (rol==="\"User\"") {
+                navigate("/home")
             }
         }
         autenticarUsuario()
@@ -159,7 +165,7 @@ export default function FormEvento(){
         <div className="flex justify-center m-10 w-98 ...">
             <form className="flex flex-col min-w-[70%] bg-slate-200 p-2 bg-white rounded-lg ..." onSubmit={handleSubmit}>
                 <div className="flex justify-center m-2 ...">
-                    <h1 className="text-xl font-semibold ...">Edita tu perfil</h1>
+                    <h1 className="text-xl font-semibold ...">CREA TU EVENTO</h1>
                 </div>
                 <input 
                 type="file" 
@@ -188,14 +194,6 @@ export default function FormEvento(){
                 <div className="text-center place-items-center justify-center">
                     <p className="mt-2">Hora Del Evento:</p>
                 </div>
-                <input
-					type="text"
-					placeholder="Descripcion del evento"
-					name="descripcion"
-					onChange={handleDes}
-					value={des}	    
-                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
-				/>
                <input
 					type="time"
 					placeholder="Hora del evento"
@@ -205,6 +203,14 @@ export default function FormEvento(){
                     className="h-10 bg-slate-100 rounded-lg ..."
 				/>
                 </div>
+                <input
+					type="text"
+					placeholder="Descripcion del evento"
+					name="descripcion"
+					onChange={handleDes}
+					value={des}	    
+                    className="h-10 ml-2 bg-slate-100 rounded-lg ..."
+				/>
                 <div className="select">
                     <label> Facultad:</label>
                     <br />
@@ -223,12 +229,14 @@ export default function FormEvento(){
                         ))}
                     </select>
                 </div>
-                {data.tipo.map(e=>
-                    <div className="flex flex-row">
-                        <button className="X" onClick={()=>handleDelete(e)}>X</button>
-                        <p>{e}</p>
-                    </div>
-                    )}
+                <div className="grid grid-cols-5">
+                        {data.tipo.map(e=>
+                        <div className="flex gap-4 m-4 p-2 my-2 text-sm text-white bg-green-700 text-center rounded-lg justify-center text-center">
+                            <p>{e}</p>
+                            <button className="X" onClick={()=>handleDelete(e)}>X</button>
+                        </div>
+                        )}
+                </div>
                 <br />
                 <div className="grid grid-cols-3">
                     <input

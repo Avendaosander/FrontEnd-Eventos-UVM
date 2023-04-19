@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import axios from "axios"
-import Footer from '../Footer/Footer';
 import { decodeToken } from "react-jwt";
+import axios from "axios"
 import PaginationNav1Presentation from '../Pagination/Pagination';
+import { FaSpinner } from "react-icons/fa";
 
 
 import CardEvento from '../CardEvento/CardEvento';
@@ -10,14 +10,27 @@ export default function Eventos () {
     const [dataEventos, setDataEventos] = useState([]);
     const [dataEventosFav, setDataEventosFav] = useState({eventos:[], isfav:[]});
 
+    const token = JSON.parse(localStorage.getItem('token'))
 
-    const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
-    const id=decodedID.id
+    useEffect(() => {
+        const autenticarUsuario = async () => {
+            const token = localStorage.getItem("token");
+            const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+            const id=decodedID.id
+            if(!token){
+                navigate("/login")
+                return
+            }
+        }
+        autenticarUsuario()
+    },[])     
 
 
     const Eventos = async()=>{
         try {
-            const response  = await axios(`http://localhost:3000/app/events`)
+            const response  = await axios(`http://localhost:3000/app/events`,{
+                headers: {Authorization: 'Bearer ' + token}
+            })
             const dataEvents = Object.values(response.data.eventos);
             //console.log(dataEvents);
             setDataEventos(dataEvents);
@@ -30,7 +43,9 @@ export default function Eventos () {
 
     const EventosFav = async()=>{
         try {
-            const res  = await axios(`http://localhost:3000/app/favorites/${id}`)
+            const res  = await axios(`http://localhost:3000/app/favorites/${id}`,{
+                headers: {Authorization: 'Bearer ' + token}
+            })
 			//console.log(res.data.eventos);
 			const dataEvents = Object.values(res.data.eventos);
             const arrayFavorites = [];
@@ -55,24 +70,28 @@ export default function Eventos () {
     
     return (
         <div className="w-full flex flex-col items-center justify-center pt-8">
-            <span className="text-3xl font-bold pt-4">Eventos</span>
+            {dataEventos.length>0?
+            <div className="e">
+                <span className="text-3xl font-bold pt-4">Eventos</span>
 
-            <div className="w-full h-full p-6 items-center justify-center">
-                <div className="w-auto grid lg:grid-cols-3 lg:gap-3 place-items-center pb-8 space-y-12">
-                    {dataEventos.map((evento, index)=>(
-                        <>
+                <div className="w-full h-full p-6 items-center justify-center">
+                    <div className="w-auto grid lg:grid-cols-3 lg:gap-3 place-items-center pb-8 space-y-12">
+                        {dataEventos.map((evento, index)=>(
                             <CardEvento dataEvento={evento} isFav={dataEventosFav.isfav} key={index} />
-
-                        </>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            <div className="w-full flex flex-col items-center justify-center">
-                <div className='w-auto'>
-                    <PaginationNav1Presentation />
+                <div className="w-full flex flex-col items-center justify-center">
+                    <div className='w-auto'>
+                        <PaginationNav1Presentation />
+                    </div>
                 </div>
-            </div>
+            </div>:
+                <div className="flex justify-center text-center p-5">
+                  <h1 className='text-center'><FaSpinner className='w-32 h-32 animate-spin'/></h1>
+                </div>
+            }
         </div>
     )
 }

@@ -4,8 +4,7 @@ import { decodeToken } from "react-jwt";
 import { useEffect, useState } from "react"
 
 export default function Userform(){
-    const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
-    const id=decodedID.id
+    const token = localStorage.getItem("token");
     const navigate=useNavigate()
     const [error, setError] = useState("");
     const [user,setUser]=useState({})
@@ -18,6 +17,7 @@ export default function Userform(){
         telefono:"",
 	});
     console.log(data);
+    
     const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 		// console.log(data)
@@ -28,13 +28,17 @@ export default function Userform(){
 	};
     useEffect(() => {
         const autenticarUsuario = async () => {
-            const token = localStorage.getItem("token");
+            const token=localStorage.getItem("token")
+            const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+            const id=decodedID.id
             if(!token){
                 navigate("/login");
                 return;
             }
             try {
-                const { data } = await axios('http://localhost:3000/app/profile/' + id)
+                const { data } = await axios('http://localhost:3000/app/profile/' + id,{
+                    headers: { "Authorization": "Bearer " + JSON.parse(token) }
+                })
                 // console.log(data)
                 setUser(data);
               } catch (error) {
@@ -52,7 +56,8 @@ export default function Userform(){
             setError("No se permiten letras en el numero")
         } else{
             e.preventDefault();
-            console.log(data);
+            const decodedID=decodeToken(JSON.parse(localStorage.getItem('token')))
+            const id=decodedID.id
             let body = new FormData()
             data.imgPerfil = data.imgPerfil !== null && (body.append('imgPerfil', data.imgPerfil))
             data.nombre = data.nombre !== '' && (body.append('nombre', data.nombre))
@@ -62,9 +67,13 @@ export default function Userform(){
             data.telefono = data.telefono !== '' && (body.append('telefono', data.telefono))
             try {
                 const url = "http://localhost:3000/app/update-profile/" + id;
-                const { data: res } = await axios.post(url, body);
-                console.log(res)
-                navigate('/profile')
+                const res = await axios.post(url, body,{
+                    headers: { "Authorization": "Bearer " + JSON.parse(token) }
+                });
+                if (res.status === 200) {
+                    return navigate('/profile')
+                }
+                throw new Error(res.status)
             } catch (error) {
                 if (
                     error.response &&
@@ -80,7 +89,7 @@ export default function Userform(){
     return(
         <div className="flex justify-center m-10 ...">
             { user.user?
-            <form className="flex flex-col bg-slate-200 p-2 bg-white rounded-lg ..." onSubmit={handleSubmit}>
+            <form className="flex flex-col p-2 bg-white rounded-lg ..." onSubmit={handleSubmit}>
                 <div className="flex justify-center m-2 ...">
                     <h1 className="text-xl font-semibold ...">Edita tu perfil</h1>
                 </div>
@@ -107,7 +116,7 @@ export default function Userform(){
 				/>
                 </div>
                 { user.user.rol==="Admin"?
-                <div className="flex flex-col bg-slate-200 bg-white rounded-lg ...">
+                <div className="flex flex-col bg-white rounded-lg ...">
                 <input
 					type="text"
 					placeholder="Sobre ti"

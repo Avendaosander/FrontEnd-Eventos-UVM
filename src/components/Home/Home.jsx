@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NextEvents from "./NextEvents";
 import UltimosEventos from "./UltimosEventos";
 import Slider from "./Slider";
 import axios from "axios"
-import { useNavigate } from 'react-router-dom';
-import Footer from '../Footer/Footer'
+
 export default function Home(){
     const navigate=useNavigate()
     const [dataProximos, setDataProximos] = useState([]);
     const [dataUltimos, setDataUltimos] = useState([]);
     const [dataToday, setDataToday] = useState([]);
+    const token = localStorage.getItem("token");
+
     useEffect(()=>{
         const autenticarUsuario = () => {
-            const token = localStorage.getItem("token");
             if(!token){
                 navigate("/login");
                 return;
@@ -20,10 +21,23 @@ export default function Home(){
         }
         autenticarUsuario()
     },[])
+    useEffect(() => {
+        const autenticarUsuario = async () => {
+            const token = localStorage.getItem("token");
+            if(!token){
+                navigate("/login")
+                return
+            }
+        }
+        autenticarUsuario()
+    },[])     
+
 
     const dataEventos = async()=>{
         try {
-            const response  = await axios(`http://localhost:3000/app/dashboard`)
+            const response  = await axios(`http://localhost:3000/app/dashboard`,{
+                headers: {Authorization: "Bearer " + JSON.parse(token)}
+            })
             setDataProximos(response.data.proximos);
             setDataUltimos(response.data.recientes);
             setDataToday(response.data.eventsToday);

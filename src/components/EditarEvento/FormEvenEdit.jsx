@@ -7,6 +7,7 @@ export default function EditEvento(){
     const navigate=useNavigate()
     const params=useParams()
     const id=params.id
+    const token=localStorage.getItem("token")
     const [error,setError]=useState('')
     const [key,setKey]=useState("")
     const [des,setDes]=useState("")
@@ -110,7 +111,9 @@ export default function EditEvento(){
 
 		try {
 			const url = "http://localhost:3000/events/update-event/" + id;
-			const { data: res } = await axios.post(url, body);
+			const { data: res } = await axios.post(url, body,{
+                headers: {Authorization: "Bearer " + JSON.parse(token)}
+            });
             console.log(res)
             navigate(`/evento/${id}`)
 		} catch (error) {
