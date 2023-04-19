@@ -19,6 +19,9 @@ const Login = () => {
 			const { data: res } = await axios.post(url, data);
 			const id=res.token
 			localStorage.setItem("token", JSON.stringify(res.token));
+			localStorage.setItem("imgPerfil", JSON.stringify(res.user.imgPerfil));
+			localStorage.setItem("username", JSON.stringify(res.user.username));
+			localStorage.setItem("rol", JSON.stringify(res.user.rol));
 			navigate('/profile');
 		} catch (error) {
 			if (
